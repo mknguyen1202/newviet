@@ -1,7 +1,22 @@
 {
     "navigationFallback": {
-        "rewrite": "/index.html"
+        "rewrite": "/index.html",
+        "exclude": ["/assets/*", "/*.js", "/*.css", "/*.svg", "/*.json", "/*.wasm", "/*.ico", "/*.png", "/*.webp", "/*.woff", "/*.woff2"]
     },
+    "routes": [
+        {
+            "route": "/assets/*.js",
+            "headers": {
+                "Content-Type": "application/javascript; charset=utf-8"
+            }
+        },
+        {
+            "route": "/assets/*.css",
+            "headers": {
+                "Content-Type": "text/css; charset=utf-8"
+            }
+        }
+    ],
     "mimeTypes": {
         ".js": "application/javascript",
         ".mjs": "application/javascript",
