@@ -32,19 +32,6 @@ The apostrophe in *phát'hành* signals an ambiguity: `pháthành` could also be
 
 ---
 
-## Tech stack
-
-| Layer | Choice |
-|---|---|
-| Framework | React 18 + TypeScript |
-| Bundler | Vite 5 |
-| Styling | Tailwind CSS 3 (dark mode: `class`) |
-| Fonts | Be Vietnam Pro (UI) · Noto Serif (Vietnamese text) |
-| Tests | Vitest 2 |
-| Data script | `tsx` (TypeScript runner) |
-
----
-
 ## Getting started
 
 ```bash
@@ -71,34 +58,6 @@ npm run preview      # serve dist/ locally
 
 ```bash
 npm test             # 11 tests across telex, syllable, and joiner modules
-```
-
----
-
-## Project layout
-
-```
-src/
-├── data/
-│   ├── syllables.json      # generated — all valid Vietnamese syllables
-│   └── words.json          # curated multi-syllable word list
-├── lib/
-│   ├── telex.ts            # Telex → Unicode converter
-│   ├── syllable.ts         # syllable validator + ambiguous-split finder
-│   ├── dictionary.ts       # word index + greedy longest-match
-│   ├── joiner.ts           # main joining pipeline
-│   └── __tests__/
-├── components/
-│   ├── Hero.tsx            # concept explainer with live examples
-│   ├── KieuExample.tsx     # Truyện Kiều side-by-side
-│   ├── WikiExample.tsx     # Wikipedia excerpt side-by-side
-│   └── Converter.tsx       # interactive two-pane converter
-├── App.tsx
-└── main.tsx
-scripts/
-└── build-data.ts           # phonotactic syllable generator
-public/
-└── favicon.svg
 ```
 
 ---
