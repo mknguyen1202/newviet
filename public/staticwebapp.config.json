@@ -1,8 +1,13 @@
 {
-  "navigationFallback": {
-    "rewrite": "/index.html"
-  },
-  "mimeTypes": {
-    ".json": "application/json"
-  }
+    "navigationFallback": {
+        "rewrite": "/index.html"
+    },
+    "mimeTypes": {
+        ".js": "application/javascript",
+        ".mjs": "application/javascript",
+        ".css": "text/css",
+        ".json": "application/json",
+        ".svg": "image/svg+xml",
+        ".wasm": "application/wasm"
+    }
 }
