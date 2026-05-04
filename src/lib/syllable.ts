@@ -26,3 +26,17 @@ export function splits(s: string): Array<[string, string]> {
     }
     return out;
 }
+
+/**
+ * Returns the longest prefix of `s` (normalised NFC lowercase) that is a
+ * recognised syllable, or `null` if no prefix is a syllable.
+ */
+export function longestSyllablePrefix(s: string): string | null {
+    const norm = s.normalize('NFC').toLowerCase();
+    let result: string | null = null;
+    for (let i = 1; i <= norm.length; i++) {
+        const prefix = norm.slice(0, i);
+        if (SYLLABLES.has(prefix)) result = prefix;
+    }
+    return result;
+}

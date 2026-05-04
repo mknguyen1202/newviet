@@ -1,17 +1,18 @@
 /**
  * Joiner: convert space-separated Vietnamese into solid words, inserting
  * an apostrophe (`'`) between two syllables only when concatenating them
- * would produce a string that *also* splits into a different valid word
- * pair (real ambiguity).
+ * would be mis-parsed by a greedy longest-coda reader — i.e., when the
+ * longest valid syllable prefix of the combined string is longer than the
+ * first intended syllable.
  *
  * Examples
- *   "phát hành"  → "phát'hành"   // because "pháthành" also = "phá" + "thành"
- *   "học sinh"   → "họcsinh"     // no alternative word split exists
- *   "Trăm năm trong cõi người ta" → "Trămnăm trong cõi'người ta" (depends
- *     on which 2-syllable groups exist in the dictionary)
+ *   "quá trình"   → "quá'trình"  // greedy reads "quát", not "quá"
+ *   "hệ thống"    → "hệ'thống"   // greedy reads "hệt", not "hệ"
+ *   "chính xác"   → "chínhxác"   // greedy reads "chính" = correct
+ *   "học sinh"    → "họcsinh"    // greedy reads "học" = correct
  */
-import { isSyllable, splits } from './syllable';
-import { isWord, longestWordAt } from './dictionary';
+import { isSyllable, longestSyllablePrefix } from './syllable';
+import { longestWordAt } from './dictionary';
 
 /** Tokenize: split by Unicode whitespace + isolate punctuation runs. */
 function tokenize(input: string): Array<{ kind: 'word' | 'space' | 'punct'; text: string }> {
@@ -44,16 +45,12 @@ function tokenize(input: string): Array<{ kind: 'word' | 'space' | 'punct'; text
     return tokens;
 }
 
-/** Concatenate two syllables, inserting `'` iff doing so creates ambiguity. */
+/** Concatenate two syllables, inserting `'` iff a greedy reader would mis-parse. */
 function joinPair(left: string, right: string): string {
-    const a = left.toLowerCase();
-    const b = right.toLowerCase();
-    const combined = a + b;
-    const alts = splits(combined);
-    // Check if any alternative split (other than (a,b) itself) is a real word
-    const ambiguous = alts.some(
-        ([x, y]) => !(x === a && y === b) && isWord([x, y]),
-    );
+    const a = left.normalize('NFC').toLowerCase();
+    const combined = a + right.normalize('NFC').toLowerCase();
+    const longest = longestSyllablePrefix(combined);
+    const ambiguous = longest !== null && longest !== a;
     return ambiguous ? `${left}'${right}` : `${left}${right}`;
 }
 

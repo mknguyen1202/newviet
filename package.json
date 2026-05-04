@@ -9,7 +9,8 @@
         "preview": "vite preview",
         "test": "vitest run",
         "test:watch": "vitest",
-        "build:data": "tsx scripts/build-data.ts"
+        "build:data": "tsx scripts/build-data.ts",
+        "fetch:words": "tsx scripts/fetch-words.ts"
     },
     "dependencies": {
         "react": "^18.3.1",
